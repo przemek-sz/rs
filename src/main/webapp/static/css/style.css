@@ -1,0 +1,94 @@
+html,body
+{
+    height: 100%;
+}
+
+body
+{
+
+    background-color: white;
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0px;
+}
+
+
+#container
+{
+
+
+}
+
+#menu
+{
+
+
+    padding: 15px;
+    height: 50px;
+    width: 1850px;
+    background-color: #f2f3f4;
+    box-sizing: border-box;
+
+
+}
+
+#sidebar
+{
+    float: left;
+    width: 170px;
+    height: 100%;
+    background-color: #eee;
+    padding: 20px;
+    text-align: center;
+
+
+}
+
+#content
+{
+    float: left;
+    padding: 90px;
+    text-align: justify;
+    width: 730px;
+
+}
+
+#footer
+{
+    clear: both;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+
+}
+
+.menuItem
+{
+    float: left;
+    min-width: 10px;
+    margin: 5px;
+}
+
+#fed
+{
+
+
+
+    padding: 40px;
+
+}
+
+#itemLink
+{
+
+}
+
+#itemJpg
+{
+    float: left;
+}
+
+#itemDescription
+{
+    padding-top: 10px;
+}

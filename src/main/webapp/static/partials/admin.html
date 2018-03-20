@@ -1,0 +1,8 @@
+<div ng-show="authenticated">
+
+    <ul>
+        <li ng-repeat="user in adminController.users">
+            {{user.userName}}-{{user.email}} <button ng-click="adminController.removeUser(user.userName)">Usun</button>
+        </li>
+    </ul>
+</div>

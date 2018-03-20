@@ -1,0 +1,9 @@
+<div ng-controller="ReadController as readController">
+
+    <ul>
+        <li ng-repeat="item in readController.feed.items">
+            {{item.title}}-{{item.link()}}-{{item.description}}-<img ng-src="{{item.jpgLink}}">
+        </li>
+    </ul>
+
+</div>

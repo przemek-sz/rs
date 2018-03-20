@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <base href="/"/>
+    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+
+</head>
+<body>
+
+
+<div id="container">
+    <div id="menu"> <div class="menuItem"><a href="#!/">Strona Glowna </a></div>
+        <div class="menuItem"><a href="#!/userlist">Lista uzytkownikow </a></div>
+        <div ng-show!="authenticated" class="menuItem"><a href="#!/login">Logowanie </a></div>
+        <div ng-show!="authenticated" class="menuItem"><a href="#!/signup">Rejestracja </a></div>
+        <div ng-show="authenticated" class="menuItem"><div ng-controller="AuthenticationController as authController"><button ng-click="authController.logout()">Wylogoj </button></div>
+        </div>
+    </div></div>
+<div id="sidebar"><a href="#!/add">Add</a> </div>
+<div id="content"> <div ng-view></div> </div>
+<div id="footer"></div>
+</div>
+
+
+
+{{2+2}}
+<script src="static/lib/angular/angular.js"></script>
+<script src="static/lib/angular-route/angular-route.js"></script>
+<script src="static/app/app.js"></script>
+<script src="static/app/controller/UserController.js"></script>
+<script src="static/app/controller/AuthenticationController.js"></script>
+<script src="static/app/service/ConfigService.js"></script>
+<script src="static/app/service/AuthenticationService.js"></script>
+<script src="static/app/controller/ReadController.js"></script>
+<script src="static/app/controller/AdminController.js"></script>
+<script src="static/app/controller/SearchAddController.js"></script>
+
+</body>
+</html>

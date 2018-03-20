@@ -1,0 +1,9 @@
+<div ng-show="!authenticated">
+    <h1>Please Login</h1>
+    <form>
+        <input type="text" ng-model="authController.credentials.username"><br>
+        <input type="password" ng-model="authController.credentials.password"><br>
+        <button ng-click="authController.login()">Login</button>
+    </form>
+    {{2+2}}
+</div>

@@ -1,0 +1,35 @@
+<div>Strona Glowna
+  Hello
+</div>
+<div ng-controller="ReadController as readController">
+
+  <form>
+    <input type="text" ng-model="readController.url" placeholder="url">
+    <button ng-click="readController.readFromUrl(readController.url)">Read</button>
+  </form>
+
+ <!-- <ul>
+    <li ng-repeat="item in readController.feed.items">
+      {{item.title}}-{{item.link()}}-{{item.description}}-<img ng-src="{{item.jpgLink}}">
+    </li>
+  </ul>
+  -->
+
+
+  <div ng-repeat="item in readController.feed.items">
+
+  <div id="fed">
+
+    <div id=sitem>
+      <div id=itemJpg><img ng-src="{{item.jpgLink}}" width="130"/></div>
+      <div id=itemLink><a href="{{item.link}}"><b>{{item.title}}</b></a></div>
+      <div id=itemDescription>{{item.description}}</div>
+
+    </div>
+
+  </div>
+   </div>
+
+
+
+</div>

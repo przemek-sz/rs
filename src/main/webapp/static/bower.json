@@ -1,0 +1,11 @@
+{
+  "name": "rssreader",
+  "homepage": "https://github.com/przemek-sz/rssreader",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "angularjs#^1.6.6",
+    "angular-route": "^1.6.6"
+  }
+}

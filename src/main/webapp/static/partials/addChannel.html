@@ -1,0 +1,22 @@
+<div>
+
+    <div ng-controller="SearchAddController as searchAddController">
+
+        <form>
+            <input type="text" ng-model="searchAddController.url" placeholder="url">
+            <button ng-click="searchAddController.search(searchAddController.url)">Szukaj</button>
+        </form>
+
+        {{channels}}
+
+        <div ng-repeat="channel in searchAddController.channels">
+
+            {{channel.title}}-{{channel.link}}
+
+        </div>
+
+    </div>
+
+
+
+</div>

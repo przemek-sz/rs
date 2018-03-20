@@ -1,0 +1,10 @@
+<div>Rejestracja</div>
+<div ng-controller="UserController as userController">
+    <form name="form.userForm" >
+        <input type="text" ng-model="userController.user.userName" placeholder="User Name"><br>
+        <input type="text" ng-model="userController.user.email" placeholder="Email"><br>
+        <input type="text" ng-model="userController.user.password" placeholder="Password"><br>
+        <button ng-click="userController.addUser(userController.user)">Zarejestruj</button>
+    </form>
+    aaa3
+</div>

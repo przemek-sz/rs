@@ -1,6 +1,9 @@
 package com.szczerbap.rssreader.service;
 
+import com.szczerbap.rssreader.data.dto.RssChannelDto;
 import com.szczerbap.rssreader.data.feed.Channel;
+import com.szczerbap.rssreader.model.RssChannel;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -34,17 +37,19 @@ public class ReadUrl {
     FeedProcess feedProcess;
 
 
-    public List<Channel> getChannel(String url){
+    public List<RssChannelDto> getChannel(String url){
 
 
         if(checkIfRssUrl(url)){
-            List<Channel> channel=new ArrayList<>();
-            channel.add(feedProcess.setChannel(feedProcess.getXmlFeed(url)));
-            return channel;
+            List<RssChannelDto> rssChannels=new ArrayList<>();
+            Channel channel= feedProcess.setChannel(feedProcess.getXmlFeed(url));
+            rssChannels.add(new RssChannelDto(url,channel.getLink(),channel.getTitle(),channel.getDescription()));
+            return rssChannels;
         }
+        else {
+            return getUrlFromHTML(url);
 
-        return getUrlFromHTML(url);
-
+        }
     }
 
     //==============================================================//
@@ -61,21 +66,13 @@ public class ReadUrl {
 
     //==============================================================//
 
-    public List<Channel> getUrlFromHTML(String url){
+    public List<RssChannelDto> getUrlFromHTML(String url){
 
         String txt=null;
 
         try {
-            URLConnection connection = new URL(url).openConnection();
-            InputStream is = connection.getInputStream();
-            int ptr = 0;
-            StringBuffer buffer = new StringBuffer();
-            while ((ptr = is.read()) != -1) {
-                buffer.append((char)ptr);
-            }
-            txt=buffer.toString();
-        }catch (MalformedURLException e){
-            System.out.println(e.getStackTrace());
+            txt= Jsoup.connect(url).get().toString();
+
         }catch (IOException e){
             System.out.println(e.getStackTrace());
         }
@@ -83,27 +80,41 @@ public class ReadUrl {
 
 
 
-        String regex="<link([A-Za-z0-9\\s\"\\/:\\+\\?.=&\\nĄąĆćĘęŁłŃńÓóŚśŹźŻż-])*rel=\"alternate\"[A-Za-z0-9\\s\"\\/:\\+\\?.=&\\nĄąĆćĘęŁłŃńÓóŚśŹźŻż-]*/>";
+        String regex="<link[A-Za-z0-9\\s\"\\/:\\+\\?.=&\\nĄąĆćĘęŁłŃńÓóŚśŹźŻż-]*rel=\"alternate\"[A-Za-z0-9\\s\"\\/:\\+\\?.=&\\nĄąĆćĘęŁłŃńÓóŚśŹźŻż-]*\\/?>";
+
+        //String regex="[\\S\\s]*?(<link[\\S\\s]*?rel=\"alternate\"[\\S\\s]*?\\/>)[\\S\\s]*?";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(txt);
 
-        List<Channel> channelList=new ArrayList<>();
+        List<RssChannelDto> channelList=new ArrayList<>();
+
+
 
         while(matcher.find()){
 
-            Pattern hrefPattern = Pattern.compile("href=\"(.*?)\"");
-            Matcher hrefMatcher = hrefPattern.matcher(matcher.group());
-
-            Pattern titlePattern = Pattern.compile("title=\"(.*?)\"");
-            Matcher titleMatcher = titlePattern.matcher(matcher.group());
 
 
-            if(hrefMatcher.find()&&titleMatcher.find()) {
-                channelList.add(new Channel(titleMatcher.group(1),hrefMatcher.group(1),url));
+
+            Pattern rssHrefPattern = Pattern.compile("href=\"(.*?)\"");
+            Matcher rssHrefMatcher = rssHrefPattern.matcher(matcher.group());
+
+            Pattern descriptionPattern = Pattern.compile("title=\"(.*?)\"");
+            Matcher descriptionMatcher = descriptionPattern.matcher(matcher.group());
+
+            Pattern titlePattern = Pattern.compile("https?:\\/\\/(.*?)\\/");
+            Matcher titleMatcher = titlePattern.matcher(url);
+
+
+
+
+            if(rssHrefMatcher.find()&&descriptionMatcher.find()&&titleMatcher.find()) {
+                channelList.add(new RssChannelDto(rssHrefMatcher.group(1),url,titleMatcher.group(1),descriptionMatcher.group(1)));
+
             }
 
         }
+
 
         return channelList;
     }

@@ -1,15 +1,18 @@
 package com.szczerbap.rssreader.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.szczerbap.rssreader.data.dto.RssChannelDto;
 import com.szczerbap.rssreader.data.feed.Channel;
+import com.szczerbap.rssreader.model.RssChannel;
 import com.szczerbap.rssreader.repository.RssChannelRepository;
-import com.szczerbap.rssreader.service.ReadUrl;
-import com.szczerbap.rssreader.service.RssChannelService;
+import com.szczerbap.rssreader.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -20,23 +23,45 @@ public class ChannelController {
     @Autowired
     ReadUrl readUrl;
     @Autowired
+    UserService userService;
+    @Autowired
     RssChannelService rssChannelService;
+    @Autowired
+    BaseConverter<RssChannelDto,RssChannel> dtoToEntity;
+
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public List<Channel> search(@RequestBody String url){
+    public List<RssChannelDto> search(@RequestBody String url){
 
        return readUrl.getChannel(url);
+    }
+
+
+
+    @RequestMapping(value = "/add", method=RequestMethod.POST)
+    public void add(@RequestBody String json,Principal principal){
+
+        ObjectMapper mapper = new ObjectMapper();
+        RssChannelDto rssChannelDto=null;
+
+        try {
+            rssChannelDto=mapper.readValue(json,RssChannelDto.class);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        RssChannel rssChannel=dtoToEntity.convert(rssChannelDto);
+        rssChannel.setUser(userService.getByUserName(principal.getName()));
+
+        rssChannelService.add(rssChannel);
 
     }
 
-    /*
-    @RequestMapping(value = "/add", method=RequestMethod.PUT)
-    public void add(String url,Principal user){
 
+    @RequestMapping(value = "/getall", method = RequestMethod.GET)
+    public void getall(){
 
-       System.out.println(user.getName());
-        //rssChannelService.add(url);
-
+        System.out.println("getAll");
     }
-    */
+
 }

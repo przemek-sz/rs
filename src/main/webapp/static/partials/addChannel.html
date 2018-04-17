@@ -11,7 +11,7 @@
 
         <div ng-repeat="channel in searchAddController.channels">
 
-            {{channel.title}}-{{channel.link}}
+            {{channel.title}}-{{channel.link}}<button ng-click="searchAddController.add(channel)">Add</button>
 
         </div>
 

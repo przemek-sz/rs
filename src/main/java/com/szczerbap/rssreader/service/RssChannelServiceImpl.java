@@ -12,7 +12,7 @@ public class RssChannelServiceImpl implements RssChannelService{
     RssChannelRepository rssChannelRepository;
 
     @Override
-    public void add(String url) {
-        rssChannelRepository.save(new RssChannel(url));
+    public void add(RssChannel rssChannel) {
+        rssChannelRepository.save(rssChannel);
     }
 }

@@ -5,6 +5,10 @@ app.controller('SearchAddController',function ($http) {
     var vm=this;
 
 
+
+        getAll();
+
+
     vm.search=function (url) {
 
         $http({
@@ -18,10 +22,10 @@ app.controller('SearchAddController',function ($http) {
         });
     };
 
-    this.add=function (url) {
+    vm.add=function (url) {
 
         $http({
-            method:'PUT',
+            method:'POST',
             url:'/api/channel/add',
             data:url
         }).then(function succes() {
@@ -30,5 +34,19 @@ app.controller('SearchAddController',function ($http) {
 
         });
     };
+
+
+    function getAll() {
+
+        $http({
+            method:'GET',
+            url:'api/channel/getall'
+        }).then(function succes(response) {
+            vm.userChannels=response.data;
+        })
+
+    }
+
+
 
 });

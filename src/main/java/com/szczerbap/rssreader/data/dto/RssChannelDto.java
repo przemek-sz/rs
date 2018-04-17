@@ -1,38 +1,21 @@
-package com.szczerbap.rssreader.model;
+package com.szczerbap.rssreader.data.dto;
 
-import javax.persistence.*;
-
-@Entity
-public class RssChannel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RssChannelDto {
 
     private String rssUrl;
     private String url;
     private String title;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public RssChannel(){
+    public RssChannelDto(){
 
     }
 
-    public RssChannel(String rssUrl,String url,String title, String description){
-
-        this.rssUrl=rssUrl;
-        this.url=url;
-        this.title=title;
-        this.description=description;
-    }
-
-
-    public Long getId() {
-        return id;
+    public RssChannelDto(String rssUrl, String url, String title, String description) {
+        this.rssUrl = rssUrl;
+        this.url = url;
+        this.title = title;
+        this.description = description;
     }
 
     public String getRssUrl() {
@@ -67,11 +50,13 @@ public class RssChannel {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "RssChannelDto{" +
+                "rssUrl='" + rssUrl + '\'' +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
